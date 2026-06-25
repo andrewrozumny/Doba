@@ -1,0 +1,41 @@
+# === Generated Xcode project ===
+# project.yml is the source of truth; the .xcodeproj is regenerated with
+# `xcodegen generate` and must NOT be committed.
+Doba.xcodeproj/
+
+# === Xcode ===
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# === Swift Package Manager ===
+.build/
+.swiftpm/
+Package.resolved
+
+# === Secrets — NEVER commit ===
+# Phase 4 (Claude API) keeps the key in Keychain or a gitignored config.
+*.xcconfig
+Secrets.xcconfig
+.env
+.env.*
+*.secret
+*.secrets
+secrets.json
+config/secrets*
+
+# === macOS ===
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# === IDE (JetBrains) ===
+.idea/

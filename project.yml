@@ -1,0 +1,90 @@
+# XcodeGen spec — the source of truth for Doba.xcodeproj.
+#
+# Doba.xcodeproj is generated and gitignored; regenerate with:  xcodegen generate
+# Edit THIS file, never the project in Xcode (changes there are lost on regen) —
+# except Signing & Capabilities, whose state lives in the (committed)
+# .entitlements files referenced below.
+name: Doba
+
+options:
+  bundleIdPrefix: com.andreyrozumny
+  createIntermediateGroups: true
+  deploymentTarget:
+    macOS: "26.0"          # latest macOS only — guarantees interactive widgets
+  groupSortPosition: top
+
+# Settings shared by every target.
+settings:
+  base:
+    SWIFT_VERSION: "5.0"   # Swift 5 language mode for now (see docs/DECISIONS.md)
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: "4Y8L43845Q"   # personal team (andrewrozumny@gmail.com)
+    GENERATE_INFOPLIST_FILE: NO
+    DEVELOPMENT_LANGUAGE: en
+
+targets:
+
+  # Shared core: models, JSON store, business logic. Linked into both the app
+  # and the widget; embedded (as a framework) by the app.
+  DobaKit:
+    type: framework
+    platform: macOS
+    sources:
+      - DobaKit/Sources/DobaKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.andreyrozumny.DobaKit
+        PRODUCT_NAME: DobaKit
+        DEFINES_MODULE: YES
+        # App/widget use explicit Info.plists; the framework has none, so let
+        # Xcode generate its (trivial) one here, overriding the base setting.
+        GENERATE_INFOPLIST_FILE: YES
+        # Allow the (sandboxed) widget extension to link this framework.
+        APPLICATION_EXTENSION_API_ONLY: YES
+
+  # The menu-bar app. Owns all writes; embeds DobaKit and the widget.
+  DobaApp:
+    type: application
+    platform: macOS
+    sources:
+      - DobaApp/Sources
+      - DobaApp/Assets.xcassets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.andreyrozumny.Doba
+        PRODUCT_NAME: Doba
+        INFOPLIST_FILE: DobaApp/Info.plist
+        CODE_SIGN_ENTITLEMENTS: DobaApp/DobaApp.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        LD_RUNPATH_SEARCH_PATHS:
+          - $(inherited)
+          - "@executable_path/../Frameworks"
+    dependencies:
+      - target: DobaKit
+        embed: true
+        codeSign: true
+      - target: DobaWidget       # embed the .appex into Doba.app/Contents/PlugIns
+        embed: true
+        codeSign: true
+
+  # Read-only desktop widget. Links DobaKit (the app supplies the embedded copy).
+  DobaWidget:
+    type: app-extension
+    platform: macOS
+    sources:
+      - DobaWidget/Sources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.andreyrozumny.Doba.Widget
+        PRODUCT_NAME: DobaWidget
+        INFOPLIST_FILE: DobaWidget/Info.plist
+        CODE_SIGN_ENTITLEMENTS: DobaWidget/DobaWidget.entitlements
+        # Find the framework the app embedded, from inside the .appex.
+        LD_RUNPATH_SEARCH_PATHS:
+          - $(inherited)
+          - "@executable_path/../../../../Frameworks"
+    dependencies:
+      - target: DobaKit
+        embed: false             # the app already embeds it; just link here
