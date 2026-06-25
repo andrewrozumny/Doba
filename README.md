@@ -100,4 +100,10 @@ pull requests are welcome if something’s broken or you make it better.
 
 ---
 
+<p align="center">
+  <a href="https://github.com/andrewrozumny">GitHub</a> ·
+  <a href="https://helpmybiz.org/">helpmybiz.org</a> ·
+  <a href="https://www.upwork.com/freelancers/arozumny">Upwork</a>
+</p>
+
 <p align="center"><sub>Made with SwiftUI · Doba · 🇺🇦</sub></p>
