@@ -49,3 +49,9 @@ config/secrets*
 # Claude operating rules + local Claude Code settings (kept locally)
 CLAUDE.md
 .claude/
+# Internal dev docs — kept locally for my own record, not published
+docs/WORKLOG.md
+docs/DECISIONS.md
+docs/ROADMAP.md
+docs/PORTFOLIO.md
+docs/prompts/
