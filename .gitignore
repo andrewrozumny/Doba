@@ -3,6 +3,11 @@
 # `xcodegen generate` and must NOT be committed.
 Doba.xcodeproj/
 
+# === Local signing & identity (bundle prefix + Team ID) ===
+# Copy Config/Doba.xcconfig.example → Config/Doba.xcconfig and set your values.
+# The real one is never committed; the .example template is.
+Config/Doba.xcconfig
+
 # === Xcode ===
 build/
 DerivedData/
@@ -39,3 +44,8 @@ config/secrets*
 
 # === IDE (JetBrains) ===
 .idea/
+
+# === Internal / not for the public repo ===
+# Claude operating rules + local Claude Code settings (kept locally)
+CLAUDE.md
+.claude/

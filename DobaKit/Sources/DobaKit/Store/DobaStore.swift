@@ -11,7 +11,7 @@ import os
 public enum DobaStorage {
     private static let fileName = "doba.json"
 
-    private static let logger = Logger(subsystem: "com.andreyrozumny.Doba", category: "store")
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Doba", category: "store")
 
     /// Directory holding the JSON file: the app's own **Application Support**
     /// folder (for the sandboxed app, that's inside its container). The App Group
@@ -49,8 +49,8 @@ public enum DobaStorage {
     }
 
     /// Log how the store resolves in THIS process, so DobaApp and DobaWidget can
-    /// be compared. Open Console.app and filter on subsystem
-    /// `com.andreyrozumny.Doba` (category `store`); when running the app from
+    /// be compared. Open Console.app and filter on the app's bundle ID as the
+    /// subsystem (category `store`); when running the app from
     /// Xcode it also prints to the debug console. `context` names the caller.
     /// If `container=<nil>` here, the App Group isn't resolving and the two
     /// processes are reading different files.
@@ -135,7 +135,7 @@ public enum DobaStorage {
 public final class DobaStore: ObservableObject {
     public static let shared = DobaStore()
 
-    private let logger = Logger(subsystem: "com.andreyrozumny.Doba", category: "store")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Doba", category: "store")
 
     @Published public private(set) var data: DobaData
 

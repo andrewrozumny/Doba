@@ -81,8 +81,8 @@ enum ClaudeClient {
 
         The user's existing projects are: \(knownProjects.joined(separator: ", ")). \
         When a project/client is mentioned, prefer matching it to one of these — \
-        including abbreviations and transliterations (e.g. "мойбиз"/"my biz" → \
-        "Helpmybiz") — and return that EXACT existing name. Only invent a new \
+        including abbreviations and transliterations (e.g. "nw"/"норт" → \
+        "Northwind") — and return that EXACT existing name. Only invent a new \
         project name if none clearly fits.
         """
 

@@ -6,8 +6,13 @@
 # .entitlements files referenced below.
 name: Doba
 
+# Local signing & identity (bundle prefix + Team ID) live in a gitignored
+# xcconfig. First run: copy Config/Doba.xcconfig.example → Config/Doba.xcconfig.
+configFiles:
+  Debug: Config/Doba.xcconfig
+  Release: Config/Doba.xcconfig
+
 options:
-  bundleIdPrefix: com.andreyrozumny
   createIntermediateGroups: true
   deploymentTarget:
     macOS: "26.0"          # latest macOS only — guarantees interactive widgets
@@ -20,7 +25,7 @@ settings:
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: "1"
     CODE_SIGN_STYLE: Automatic
-    DEVELOPMENT_TEAM: "4Y8L43845Q"   # personal team (andrewrozumny@gmail.com)
+    DEVELOPMENT_TEAM: "$(DOBA_TEAM_ID)"   # from Config/Doba.xcconfig
     GENERATE_INFOPLIST_FILE: NO
     DEVELOPMENT_LANGUAGE: en
 
@@ -35,7 +40,7 @@ targets:
       - DobaKit/Sources/DobaKit
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.andreyrozumny.DobaKit
+        PRODUCT_BUNDLE_IDENTIFIER: $(DOBA_BUNDLE_PREFIX).DobaKit
         PRODUCT_NAME: DobaKit
         DEFINES_MODULE: YES
         # App/widget use explicit Info.plists; the framework has none, so let
@@ -53,7 +58,7 @@ targets:
       - DobaApp/Assets.xcassets
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.andreyrozumny.Doba
+        PRODUCT_BUNDLE_IDENTIFIER: $(DOBA_BUNDLE_PREFIX).Doba
         PRODUCT_NAME: Doba
         INFOPLIST_FILE: DobaApp/Info.plist
         CODE_SIGN_ENTITLEMENTS: DobaApp/DobaApp.entitlements
@@ -77,7 +82,7 @@ targets:
       - DobaWidget/Sources
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.andreyrozumny.Doba.Widget
+        PRODUCT_BUNDLE_IDENTIFIER: $(DOBA_BUNDLE_PREFIX).Doba.Widget
         PRODUCT_NAME: DobaWidget
         INFOPLIST_FILE: DobaWidget/Info.plist
         CODE_SIGN_ENTITLEMENTS: DobaWidget/DobaWidget.entitlements

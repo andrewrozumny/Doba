@@ -84,7 +84,7 @@ one per day**, each with its own `estimatedHours`.
   and per-day. The cost is a duplicated title across days.
 - **Rejected alternative (candidate for v2):** a `PlannedBlock` describing the
   range + on-the-fly expansion. More normalized, but every consumer would have
-  to expand it. Recorded in `DECISIONS.md`.
+  to expand it.
 
 Meetings are **not** part of this model — they're `EKEvent`s from EventKit,
 merged into the today-view for display and rollup hours only.

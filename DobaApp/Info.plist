@@ -8,6 +8,10 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<!-- App Group ID, derived from the local bundle prefix (Config/Doba.xcconfig);
+	     read at runtime by DobaKit/AppGroup.swift so no identifier is hardcoded. -->
+	<key>AppGroupIdentifier</key>
+	<string>group.$(DOBA_BUNDLE_PREFIX).Doba</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>

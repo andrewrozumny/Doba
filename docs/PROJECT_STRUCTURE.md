@@ -6,13 +6,18 @@ Map of the repo. Update this when files/folders change.
 Doba/
 ├── project.yml                     XcodeGen spec — SOURCE OF TRUTH for the project
 ├── Doba.xcodeproj/                 GENERATED (gitignored) — `xcodegen generate`
+├── Config/
+│   ├── Doba.xcconfig.example       Template: bundle prefix + Apple Team ID
+│   └── Doba.xcconfig               Your local signing/identity (gitignored)
 ├── CLAUDE.md                       Operating rules for Claude Code (priority doc)
-├── README.md                       Short project intro
+├── README.md                       Project intro + features (GitHub front page)
+├── LICENSE                         MIT
+├── screenshots/                    Images used by README + the landing page
 ├── .gitignore                      Xcode / SwiftPM / secrets / generated project
 │
 ├── DobaKit/                        Shared framework: models, store, logic (no UI)
 │   └── Sources/DobaKit/
-│       ├── AppGroup.swift          App Group ID + shared container URL (one source)
+│       ├── AppGroup.swift          App Group ID (read from Info.plist) + container URL
 │       ├── SampleData.swift        Sample projects/tasks (now widget gallery preview only)
 │       ├── Rollups.swift           PlannedRollup + DayRollup (plan vs actual, billable/overhead)
 │       ├── DayLoad.swift           Day load buckets by billable hours (week-view colors) + per-day helpers
@@ -51,13 +56,10 @@ Doba/
 │       └── DobaWidget.swift        @main bundle + provider + entry view (reads store)
 │
 └── docs/
-    ├── ROADMAP.md                  Phases + status checkboxes
-    ├── WORKLOG.md                  Append-only dated change log
-    ├── PROJECT_STRUCTURE.md        This file
-    ├── ARCHITECTURE.md             Modules, App Group, data flow
-    ├── DATA_MODEL.md               v1 model + range/expansion trade-off
-    ├── DECISIONS.md                ADR-lite: non-trivial decisions + why
-    ├── SETUP.md                    Manual Xcode steps for the author (one-time)
-    └── prompts/
-        └── doba-kickoff-prompt.md  The original kickoff brief
+    ├── index.html                  Landing page (served by GitHub Pages from /docs)
+    ├── PROJECT_STRUCTURE.md         This file
+    ├── ARCHITECTURE.md              Modules, data flow
+    ├── DATA_MODEL.md                v1 model + range/expansion trade-off
+    ├── USING.md                     How to use the app day to day
+    └── SETUP.md                     Build & run (one-time)
 ```

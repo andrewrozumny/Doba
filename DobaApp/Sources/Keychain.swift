@@ -6,7 +6,8 @@ import Security
 /// JSON store, or logs — only the Keychain. The user pastes it into the in-app
 /// settings field; nothing else reads or writes it.
 enum Keychain {
-    private static let service = "com.andreyrozumny.Doba"
+    // The app's own bundle ID (from Config/Doba.xcconfig) — no identifier hardcoded.
+    private static let service = Bundle.main.bundleIdentifier ?? "com.example.Doba"
     private static let account = "anthropic-api-key"
 
     /// The stored key, or nil if none is set.

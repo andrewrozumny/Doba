@@ -19,7 +19,7 @@ final class CalendarService: ObservableObject {
     @Published private(set) var meetingsByDay: [Date: [Meeting]] = [:]
 
     private let store = EKEventStore()
-    private let logger = Logger(subsystem: "com.andreyrozumny.Doba", category: "calendar")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Doba", category: "calendar")
     private var changeObserver: NSObjectProtocol?
 
     private let pastDays = 31

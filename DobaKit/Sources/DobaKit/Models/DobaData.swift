@@ -129,7 +129,14 @@ public struct DobaData: Codable, Sendable {
     @discardableResult
     public mutating func stopTimer(taskID: UUID, at now: Date = Date()) -> Bool {
         guard let index = timeEntries.firstIndex(where: { $0.taskID == taskID && $0.end == nil }) else { return false }
-        timeEntries[index].end = max(now, timeEntries[index].start)
+        let end = max(now, timeEntries[index].start)
+        // Accidental tap: a timer that ran under 30s logs nothing and is discarded
+        // (no entry, no burndown) — matches "≥30s rounds up" in effectiveHours.
+        if end.timeIntervalSince(timeEntries[index].start) < 30 {
+            timeEntries.remove(at: index)
+            return true
+        }
+        timeEntries[index].end = end
         let worked = DobaData.effectiveHours(timeEntries[index], asOf: now)
         if let taskIndex = tasks.firstIndex(where: { $0.id == taskID }),
            let estimate = tasks[taskIndex].estimatedHours {

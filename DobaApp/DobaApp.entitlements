@@ -14,7 +14,7 @@
 	     DobaKit and the widget's entitlements. -->
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.andreyrozumny.Doba</string>
+		<string>group.$(DOBA_BUNDLE_PREFIX).Doba</string>
 	</array>
 	<!-- Phase 2: read-only access to the system Calendar (EventKit). -->
 	<key>com.apple.security.personal-information.calendars</key>

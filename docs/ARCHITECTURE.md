@@ -15,16 +15,17 @@ linked by the widget, which finds it at runtime via `@rpath`
 (`@executable_path/../../../../Frameworks`). The widget `.appex` is embedded into
 the app's `Contents/PlugIns/`.
 
-## Shared data via App Group
+## Data storage
 
-Both targets share one container, identified by a single constant
-(`AppGroup.identifier`) that must match both `.entitlements` files. The store is
-**one JSON file** (`doba.json`) in that container.
+The store is **one JSON file** (`doba.json`) in the app's own **Application
+Support** folder (inside its sandbox container). The menu-bar app is the only
+writer.
 
-If the App Group isn't provisioned yet, `DobaStorage` falls back to a per-app
-`Application Support/Doba/` directory so the app still runs — but then the app
-and widget do **not** share data. Real sharing requires the App Group enabled in
-Xcode (see `SETUP.md`).
+An App Group (`AppGroup.identifier`, derived from `$(DOBA_BUNDLE_PREFIX)` and
+read from Info.plist) is also declared in both `.entitlements` files — but only
+the desktop **widget** needs it, to read the same store. The widget is parked:
+App Groups don't provision on a **free** Apple account, so cross-process sharing
+isn't available there. The app itself never depends on the App Group.
 
 ## Data flow
 
@@ -38,7 +39,7 @@ Xcode (see `SETUP.md`).
                                   │ write
                                   ▼
                   ┌─────────────────────────────────────────────┐
-                  │ DobaKit store  →  doba.json (App Group)      │
+                  │ DobaKit store  →  doba.json (App Support)    │
                   └───────────────┬─────────────────────────────┘
                        read       │       read
               ┌───────────────────┘        └──────────────────┐

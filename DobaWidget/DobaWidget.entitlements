@@ -6,7 +6,7 @@
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.andreyrozumny.Doba</string>
+		<string>group.$(DOBA_BUNDLE_PREFIX).Doba</string>
 	</array>
 </dict>
 </plist>

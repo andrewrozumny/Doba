@@ -8,6 +8,9 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<!-- Same App Group ID as the app, so both resolve the same container. -->
+	<key>AppGroupIdentifier</key>
+	<string>group.$(DOBA_BUNDLE_PREFIX).Doba</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>

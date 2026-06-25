@@ -1,80 +1,103 @@
-# Doba
+<h1 align="center">Doba</h1>
 
-**A tiny day planner & freelance timesheet for macOS that lives in your menu bar.**
+<p align="center">
+  A tiny day planner & time tracker that lives in your macOS menu bar.<br>
+  <em>Plan your day, see where the hours go, and keep it simple.</em>
+</p>
 
-*доба (ua) — one full day, dawn to dawn.*
+<p align="center">
+  <b>Live page →</b> <a href="https://andrewrozumny.github.io/Doba/">https://andrewrozumny.github.io/Doba/</a>
+</p>
 
-I made it for myself so I'd stop losing track of time. **Free and open source** —
-everything stays on your Mac: no cloud, no accounts, no backend.
-
-🖥️ A visual tour (UK / EN): open [`docs/presentation.html`](docs/presentation.html) in a browser.
+<p align="center">
+  <img src="screenshots/cover.png" alt="Doba — Day, Week and Month views" width="100%">
+</p>
 
 ---
+
+I built **Doba** for myself, to stop losing track of where my workday goes. It’s a small native
+app that sits in the menu bar: you add tasks, check them off, push them to later, and start a
+timer when you actually start working. At the end of the day, week and month it shows you a plain,
+honest summary of the hours.
+
+It’s free, open source, and everything stays on your Mac — no cloud, no account, no sign-up.
+If it’s useful to you too, great. Help yourself. 🙂
 
 ## What it does
 
-- **Day · Week · Month** — a plan for today, a color-coded week overview, and a
-  monthly report. Step through days, weeks and periods; past days are an archive.
-- **Billable vs overhead** — every task is billable (its project has a rate) or
-  overhead; both are shown everywhere. Goals: **40h/week** and **160h per pay
-  period (15→15)**; earnings come from per-project rates.
-- **Natural-language entry (Claude)** — type *“call with client, Acme, 1h, 11:30”*
-  and the AI fills in project, hours, time, billable. Ranges (*“6h/day Mon–Fri”*)
-  expand into per-day tasks. The model returns JSON only; parsed defensively.
-- **Parallel timers** — run timers on several tasks at once. They count real
-  minutes, **burn down from the estimate**, and **auto-stop at the limit** with a
-  sound + a notification over all apps.
-- **Calendar (read-only)** — system-calendar meetings (EventKit) merge into the
-  timeline; turn any meeting into a task in one click (project & billable via Claude).
-- **Recurring, deferral, nudges** — recurring tasks (daily / weekdays / weekly),
-  defer to tomorrow, carry-over of unfinished work, and a gentle nudge to log time.
-- **Global hotkey ⌃⌥D** — a quick-capture field pops up from any app: type a task,
-  hit Enter, and it's in your plan (or parsed by Claude).
-- **Monthly report (15→15)** — a dedicated tab: how much you earned and worked over
-  the pay period, a per-project breakdown, progress to 160h. Periods are navigable.
+- **Day · Week · Month** — a plan for today, a color-coded week, and a monthly summary. Step through past days, they become your archive.
+- **Add → do → defer** — the whole task flow in two clicks. Carry unfinished work over to today.
+- **Parallel timers** — run timers on several tasks at once. When a task’s time is up, **Doba pings you and stops the timer on its own** (with a sound + a notification on top of every window).
+- **See where the hours go** — every task is *billable* or *overhead*; both numbers are shown everywhere. Optional goals: 40 h/week and 160 h/period.
+- **Natural-language entry** *(optional)* — type “call with client, Nimbus, 1h, 11:30” and let Claude fill in the project, hours, time and billable flag. Needs your own Anthropic API key.
+- **Read-only calendar** — meetings from your system calendar (EventKit) merge into the timeline; turn any meeting into a task in one click.
+- **Global hotkey ⌃⌥D** — a quick-capture field pops up from any app. Type, hit Enter, done.
+- **Simple reports** — weekly and monthly (15→15) breakdowns: earned, worked, per-project.
 
-Compact, native **360×520** menu-bar panel — strict macOS HIG, system materials, SF Symbols.
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="screenshots/doba-views.gif" alt="Switching between Day, Week and Month" width="300"><br>
+      <sub>Day · Week · Month</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="screenshots/doba-timer.gif" alt="A running task timer" width="300"><br>
+      <sub>Live timer that pings and stops at the limit</sub>
+    </td>
+  </tr>
+</table>
+
+## Screenshots
+
+| Day | Week | Month |
+|-----|------|-------|
+| ![Day](screenshots/day.png) | ![Week](screenshots/week.png) | ![Month](screenshots/month.png) |
+
+## Install
+
+You’ll need a Mac and Xcode.
+
+```bash
+git clone https://github.com/andrewrozumny/Doba.git
+cd Doba
+
+# set your bundle prefix + Apple Team ID (kept out of git)
+cp Config/Doba.xcconfig.example Config/Doba.xcconfig   # then edit it
+
+# the Xcode project is generated with XcodeGen
+brew install xcodegen      # if you don't have it
+xcodegen
+
+open Doba.xcodeproj         # then build & run with ⌘R
+```
+
+**Optional — natural-language entry:** open Settings inside the app and paste your own
+[Anthropic API key](https://console.anthropic.com/). It’s stored in the macOS Keychain and never
+leaves your machine. Everything else works without it.
+
+## Under the hood
+
+Native and dependency-free, with a clean tested core:
+
+- **SwiftUI** menu-bar app + **WidgetKit** widget
+- A shared **DobaKit** framework — models, storage and all logic as pure, tested functions
+- **EventKit** (calendar), **UserNotifications**, a Carbon global hotkey, **Keychain** for secrets
+- Data is a single local JSON file. The API key lives only in the Keychain, never in code.
 
 ## Privacy
 
-Everything is **local**: one JSON file in the app's container. No sync, no
-backend, no analytics. The only network call is the optional Claude parse; the
-**API key lives in the macOS Keychain**, never in the repo or the data file.
+Everything is local. No backend, no telemetry, no accounts. The only network call Doba can make is
+to the Anthropic API — and only if *you* add a key and use natural-language entry.
 
-## Tech
+## Status
 
-Native and **dependency-free**, with a clean, tested core.
+A personal weekend project, shared as-is. I’m not promising a roadmap or support, but issues and
+pull requests are welcome if something’s broken or you make it better.
 
-`SwiftUI` · `WidgetKit` · `EventKit` · `Claude API` (raw URLSession) · `Keychain` ·
-`Carbon` hotkey · `UserNotifications` · `XcodeGen` · local JSON store
+## License
 
-**Three targets:**
-
-- **DobaApp** — the `MenuBarExtra` app (primary surface, owns all writes)
-- **DobaWidget** — a WidgetKit extension (read-only glance)
-- **DobaKit** — shared framework: models, JSON store, and all logic as **pure,
-  tested functions** (validated with standalone `swiftc` test harnesses)
-
-## Build
-
-Requires **full Xcode** (not just Command Line Tools). The Xcode project is
-generated from `project.yml` via [XcodeGen](https://github.com/yonyz/XcodeGen):
-
-```sh
-brew install xcodegen      # once
-xcodegen generate          # produces Doba.xcodeproj (gitignored)
-open Doba.xcodeproj         # then Run (⌘R)
-```
-
-First run: paste an Anthropic API key in Settings (the gear) to enable ✨ parsing,
-and grant calendar access if you want meetings merged. See **`docs/SETUP.md`**.
-
-## Docs
-
-`docs/` holds the full story: `ROADMAP.md`, `ARCHITECTURE.md`, `DATA_MODEL.md`,
-`PROJECT_STRUCTURE.md`, `DECISIONS.md` (ADR-lite, D1–D43), `WORKLOG.md`, and
-`presentation.html`. `CLAUDE.md` is the operating-rules file.
+[MIT](LICENSE) — do what you like, no warranty.
 
 ---
 
-*Personal project, built in a few days. Mac-only, private, no cloud. Free & open source.*
+<p align="center"><sub>Made with SwiftUI · Doba · 🇺🇦</sub></p>

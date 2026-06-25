@@ -1,0 +1,12 @@
+// Local signing & identity for Doba.
+//
+// Copy this file to  Config/Doba.xcconfig  and set your own values,
+// then regenerate the project:   xcodegen generate
+//
+// Reverse-DNS prefix for the bundle IDs and the App Group
+// (e.g. com.yourname  or  io.github.youruser):
+DOBA_BUNDLE_PREFIX = com.example
+
+// Apple Developer Team ID (Xcode ▸ Settings ▸ Accounts ▸ your team).
+// Leave empty to pick the team manually in Signing & Capabilities:
+DOBA_TEAM_ID =
