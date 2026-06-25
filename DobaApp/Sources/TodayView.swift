@@ -792,7 +792,7 @@ private struct TaskRow: View {
                             .font(.caption)
                     }
                     if let est = task.estimatedHours {
-                        Text("\(est, format: .number)h").font(.caption).foregroundStyle(.secondary)
+                        Text(durText(est)).font(.caption).foregroundStyle(.secondary)
                     }
                     if task.billable {
                         Image(systemName: "dollarsign.circle").font(.caption).foregroundStyle(.green)
@@ -809,7 +809,7 @@ private struct TaskRow: View {
                     }
                     if isTiming || actualHours > 0 {
                         // Running → this session's live H:MM:SS; else logged hours.
-                        let timeText = isTiming ? clockString(runningElapsed ?? 0) : "\(actualHours.formatted(.number))h"
+                        let timeText = isTiming ? clockString(runningElapsed ?? 0) : durText(actualHours)
                         Label(timeText, systemImage: "stopwatch")
                             .labelStyle(.titleAndIcon)
                             .font(.caption.monospacedDigit())
@@ -892,6 +892,14 @@ private struct MeetingRow: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 2)
     }
+}
+
+/// A duration in hours, formatted compactly: under an hour shows **minutes**
+/// (e.g. "38m") instead of an ugly decimal like "0.6h".
+private func durText(_ hours: Double) -> String {
+    if hours <= 0 { return "0m" }
+    if hours < 1 { return "\(Int((hours * 60).rounded()))m" }
+    return hours == hours.rounded() ? "\(Int(hours))h" : String(format: "%.1fh", hours)
 }
 
 /// Seconds → "H:MM:SS" (or "M:SS" under an hour) for the live running timer.
