@@ -33,7 +33,7 @@ struct DobaApp: App {
     }
 
     var body: some Scene {
-        MenuBarExtra("Doba", systemImage: "checklist") {
+        MenuBarExtra("Doba", image: "MenuBarIcon") {
             TodayView()
                 .environmentObject(store)
                 .environmentObject(calendar)
