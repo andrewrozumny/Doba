@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs><linearGradient id="tile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1F23"/><stop offset="1" stop-color="#121417"/></linearGradient></defs>
+  <rect width="64" height="64" rx="15" fill="url(#tile)"/>
+  <rect x="0.6" y="0.6" width="62.8" height="62.8" rx="14.4" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+  <circle cx="14.5" cy="20" r="2.6" fill="#E9E7DF" fill-opacity="0.55"/>
+  <circle cx="14.5" cy="32" r="2.6" fill="#8FB096"/>
+  <circle cx="14.5" cy="44" r="2.6" fill="#5B9BFF"/>
+  <g font-family="'IBM Plex Mono', ui-monospace, Menlo, monospace" font-weight="700" text-anchor="start" font-size="10">
+    <text x="21.5" y="20" transform="translate(21.5,20) scale(0.74,0.52) translate(-21.5,-20)" dominant-baseline="central" fill="#E9E7DF" fill-opacity="0.6">00:00</text>
+    <text x="21.5" y="32" transform="translate(21.5,32) scale(1,0.52) translate(-21.5,-32)" dominant-baseline="central" fill="#8FB096">17:30</text>
+    <text x="21.5" y="44" transform="translate(21.5,44) scale(1,0.52) translate(-21.5,-44)" dominant-baseline="central" fill="#5B9BFF">8h</text>
+  </g>
+</svg>
