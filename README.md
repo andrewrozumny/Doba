@@ -27,7 +27,7 @@ If it’s useful to you too, great. Help yourself. 🙂
 
 - **Day · Week · Month** — a plan for today, a color-coded week, and a monthly summary. Step through past days, they become your archive.
 - **Add → do → defer** — the whole task flow in two clicks. Carry unfinished work over to today.
-- **Parallel timers** — run timers on several tasks at once. When a task’s time is up, **Doba pings you and stops the timer on its own** (with a sound + a notification on top of every window).
+- **Parallel timers** — run timers on several tasks at once. When a task’s time is up, **Doba pings you and stops the timer on its own** — a sound, a notification, and an alert that pops up over everything on the screen you’re working on (so you catch it mid-call).
 - **See where the hours go** — every task is *billable* or *overhead*; both numbers are shown everywhere. Optional goals: 40 h/week and 160 h/period.
 - **Natural-language entry** *(optional)* — type “call with client, Nimbus, 1h, 11:30” and let Claude fill in the project, hours, time and billable flag. Needs your own Anthropic API key.
 - **Read-only calendar** — meetings from your system calendar (EventKit) merge into the timeline; turn any meeting into a task in one click.

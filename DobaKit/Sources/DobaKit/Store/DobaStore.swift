@@ -125,6 +125,25 @@ public enum DobaStorage {
     }
 }
 
+/// A per-task countdown reached its estimate and was auto-stopped. Transient
+/// UI signal (never persisted): the app delegate shows a floating alert on the
+/// active screen so it can't be missed during a call. See D47.
+public struct TimerFinishNotice: Equatable, Identifiable {
+    /// The finished task's id — also the identity, so a new finish replaces the
+    /// previous notice rather than stacking.
+    public let id: UUID
+    public let taskTitle: String
+    public let limitHours: Double
+    public let finishedAt: Date
+
+    public init(taskID: UUID, taskTitle: String, limitHours: Double, finishedAt: Date) {
+        self.id = taskID
+        self.taskTitle = taskTitle
+        self.limitHours = limitHours
+        self.finishedAt = finishedAt
+    }
+}
+
 /// The app-facing, observable store. Owns the in-memory `DobaData` and persists
 /// on every mutation. `@MainActor` because it drives SwiftUI.
 ///
@@ -143,6 +162,17 @@ public final class DobaStore: ObservableObject {
     /// (a transient App Group read glitch). While true we refuse to persist, so an
     /// empty fallback can't overwrite the real data. See DECISIONS D35.
     @Published public private(set) var loadFailed = false
+
+    /// Set when a per-task timer hits its estimate and is auto-stopped, so the UI
+    /// can surface it prominently (banner) and pop the panel open. Nil when there
+    /// is nothing to announce. Purely a transient signal — never persisted. D47.
+    @Published public var timerFinished: TimerFinishNotice?
+
+    /// Record that a timer auto-finished at its limit (drives the banner + panel
+    /// pop). Called by the timer scheduler, not by manual stops.
+    public func announceTimerFinished(taskID: UUID, taskTitle: String, limitHours: Double, at now: Date = Date()) {
+        timerFinished = TimerFinishNotice(taskID: taskID, taskTitle: taskTitle, limitHours: limitHours, finishedAt: now)
+    }
 
     /// Load what's on disk. A genuinely-missing file is fine (start empty); a file
     /// that exists but won't read is held as a *failure* — we don't persist over it.

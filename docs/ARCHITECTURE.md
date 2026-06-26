@@ -6,7 +6,7 @@ Three targets in one Xcode project (generated from `project.yml`).
 
 | Target | Type | Role |
 |---|---|---|
-| **DobaApp** | macOS app (`MenuBarExtra`, `LSUIElement`) | Primary surface. All the heavy logic: input, parsing, task management, calendar reads, carry-over, rollups. **The only writer** to the store. |
+| **DobaApp** | macOS app (`LSUIElement`; menu-bar `NSStatusItem` + `NSPopover`, see D47) | Primary surface. All the heavy logic: input, parsing, task management, calendar reads, carry-over, rollups. **The only writer** to the store. |
 | **DobaWidget** | WidgetKit extension (`.appex`) | Lightweight "glance + tick" surface. **Reads only.** From Phase 5, toggles checkboxes via App Intents. Never manages data. |
 | **DobaKit** | Framework | Shared core: models, JSON store, business logic. Linked into both above so nothing is duplicated. UI-framework-free (no SwiftUI import) so it stays linkable from the extension. |
 

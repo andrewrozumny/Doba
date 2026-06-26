@@ -5,13 +5,13 @@ import DobaKit
 /// Doba's menu-bar entry point. No main window and no Dock icon (LSUIElement is
 /// set in Info.plist) — the whole app lives behind the menu-bar item.
 ///
-/// `.menuBarExtraStyle(.window)` gives a proper panel (a real SwiftUI view with
-/// scrolling, lists, etc.) rather than a plain NSMenu, which is what the
-/// today-view needs.
+/// The menu-bar status item and its panel popover are built and owned by
+/// `AppDelegate` (not a SwiftUI `MenuBarExtra`) so the panel can be **opened
+/// from code** — e.g. popped open when a timer auto-stops. This scene is just an
+/// empty `Settings` placeholder to satisfy SwiftUI's `App`; for this LSUIElement
+/// agent app it never shows a window. See DECISIONS D47.
 @main
 struct DobaApp: App {
-    @StateObject private var store = DobaStore.shared
-    @StateObject private var calendar = CalendarService()
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     init() {
@@ -33,11 +33,8 @@ struct DobaApp: App {
     }
 
     var body: some Scene {
-        MenuBarExtra("Doba", image: "MenuBarIcon") {
-            TodayView()
-                .environmentObject(store)
-                .environmentObject(calendar)
-        }
-        .menuBarExtraStyle(.window)
+        // The real UI is the AppDelegate-owned status item + popover; this empty
+        // Settings scene exists only because `App` requires a `Scene`.
+        Settings { EmptyView() }
     }
 }

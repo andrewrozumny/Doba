@@ -66,7 +66,7 @@ struct TodayView: View {
         return store.data.tasks.first { $0.id == id }
     }
 
-    var body: some View {
+    @ViewBuilder var body: some View {
         if let task = completingTask {
             CompleteTaskView(task: task) { hours in
                 store.completeTask(task, loggedHours: hours)

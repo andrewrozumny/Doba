@@ -37,7 +37,7 @@ Doba/
 │   ├── DobaApp.entitlements        Sandbox + App Group + calendars + network (Claude API)
 │   ├── Assets.xcassets/            App icon (AppIcon — gradient squircle + checklist)
 │   └── Sources/
-│       ├── DobaApp.swift           @main MenuBarExtra scene; launch carry-over + diagnostics
+│       ├── DobaApp.swift           @main; launch carry-over + diagnostics (empty Settings scene — panel is delegate-owned, D47)
 │       ├── TodayView.swift         Panel: Day/Week modes, date nav, week load strip, quick-add, timeline, summary
 │       ├── TaskDetailEditor.swift  In-panel editor: project/hours/time/billable + inline project create
 │       ├── CalendarService.swift   EventKit read-only bridge: auth + today's meetings (EKEvent → Meeting)
@@ -46,8 +46,8 @@ Doba/
 │       ├── SettingsView.swift      In-panel settings: rate, currency, manage-projects, API key
 │       ├── ProjectsView.swift      Manage projects: rename / recolor / per-project rate / delete
 │       ├── CompleteTaskView.swift  Log-time-on-complete; rolls the remainder to tomorrow
-│       ├── GlobalHotKey.swift      AppDelegate: ⌃⌥D quick-capture panel + notification setup
-│       └── TimerAlert.swift        Per-task countdown → banner+sound when the timer hits the estimate
+│       ├── GlobalHotKey.swift      AppDelegate: owns the menu-bar NSStatusItem + NSPopover (panel), ⌃⌥D quick-capture, notifications, floating timer-finished alert on the active screen (D47)
+│       └── TimerAlert.swift        Per-task countdown → banner+sound + announces timer-finish when the timer hits the estimate
 │
 ├── DobaWidget/                     WidgetKit extension (read-only desktop widget)
 │   ├── Info.plist                  WidgetKit extension point

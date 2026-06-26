@@ -12,6 +12,11 @@ enum TimerScheduler {
     private static let prefix = "doba.timer."
     private static var stops: [UUID: DispatchWorkItem] = [:]
     private static var scheduledNotifIDs: Set<String> = []
+    /// Held while any countdown is armed so App Nap can't throttle the main-queue
+    /// auto-stop timer — otherwise a backgrounded Doba may fire the in-app stop
+    /// (and the panel/alert) late while the system notification arrives on time.
+    /// `…AllowingIdleSystemSleep` keeps the Mac free to sleep normally. See D47.
+    private static var activityToken: NSObjectProtocol?
 
     /// Ask once (at launch) for permission to show alerts + play sound.
     static func requestAuthorization() {
@@ -50,10 +55,14 @@ enum TimerScheduler {
             scheduledNotifIDs.insert(notifID)
 
             // In-app auto-stop at the limit (the menu-bar app is always alive).
+            // Besides stopping, announce it so the panel pops open with a banner —
+            // the system notification alone is easy to miss mid-call. See D47.
             let taskID = task.id
+            let limit = estimate
             let work = DispatchWorkItem {
                 if let t = DobaStore.shared.data.tasks.first(where: { $0.id == taskID }) {
                     DobaStore.shared.stopTimer(t)
+                    DobaStore.shared.announceTimerFinished(taskID: t.id, taskTitle: t.title, limitHours: limit)
                     WidgetCenter.shared.reloadAllTimelines()
                 }
                 stops[taskID] = nil
@@ -61,6 +70,21 @@ enum TimerScheduler {
             }
             stops[taskID] = work
             DispatchQueue.main.asyncAfter(deadline: .now() + remaining, execute: work)
+        }
+
+        updateAppNapAssertion(active: !stops.isEmpty)
+    }
+
+    /// Begin/end the App Nap assertion to match whether any countdown is armed.
+    private static func updateAppNapAssertion(active: Bool) {
+        if active, activityToken == nil {
+            activityToken = ProcessInfo.processInfo.beginActivity(
+                options: [.userInitiatedAllowingIdleSystemSleep],
+                reason: "Per-task timer countdown is running"
+            )
+        } else if !active, let token = activityToken {
+            ProcessInfo.processInfo.endActivity(token)
+            activityToken = nil
         }
     }
 
